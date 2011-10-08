@@ -1,7 +1,7 @@
 Summary:	Perl interface to IDEA block cipher
 Name:		perl-Crypt-IDEA
 Version:	1.08
-Release:	5%{?dist}
+Release:	5%{?dist}.1
 License:	BSD with advertising
 Group:		Development/Libraries
 Url:		http://search.cpan.org/dist/Crypt-IDEA/
@@ -55,6 +55,9 @@ AG. This implementation is copyright Systemics Ltd (http://www.systemics.com/).
 %{_mandir}/man3/Crypt::IDEA.3pm*
 
 %changelog
+* Sat Oct 08 2011 Nicolas Chauvet <kwizart@gmail.com> - 1.08-5.1
+- Rebuilt for target i686
+
 * Tue Aug 24 2010 Paul Howarth <paul@city-fan.org> 1.08-5
 - Rebuild for Perl 5.12.1
 

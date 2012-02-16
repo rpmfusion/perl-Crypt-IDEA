@@ -1,14 +1,18 @@
 Summary:	Perl interface to IDEA block cipher
 Name:		perl-Crypt-IDEA
 Version:	1.08
-Release:	7%{?dist}
+Release:	8%{?dist}
 License:	BSD with advertising
 Group:		Development/Libraries
 Url:		http://search.cpan.org/dist/Crypt-IDEA/
 Source0:	http://search.cpan.org/CPAN/authors/id/D/DP/DPARIS/Crypt-IDEA-%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-BuildRequires:	perl(ExtUtils::MakeMaker), perl(Test::More)
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(id -nu)
+BuildRequires:	perl(Carp)
+BuildRequires:	perl(DynaLoader)
+BuildRequires:	perl(Exporter)
+BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildRequires:	perl(Test::More)
+Requires:	perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
 # Don't provide private perl libs
 %{?perl_default_filter}
@@ -24,28 +28,28 @@ AG. This implementation is copyright Systemics Ltd (http://www.systemics.com/).
 %setup -q -n Crypt-IDEA-%{version}
 
 # Remove unnecessary shellbang that points to the wrong perl interpreter anyway
-%{__sed} -i -e '\|^#! */usr/local/bin/perl |d' IDEA.pm
+sed -i -e '\|^#! */usr/local/bin/perl |d' IDEA.pm
 
 # Remove file we don't want packaged
-%{__rm} -f ._test.pl
+rm -f ._test.pl
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
-%{__make} %{?_smp_mflags}
-
-%check
-%{__make} test
+perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
+make %{?_smp_mflags}
 
 %install
-%{__rm} -rf %{buildroot}
-%{__make} pure_install PERL_INSTALL_ROOT=%{buildroot}
-/usr/bin/find %{buildroot} -type f -name .packlist -exec %{__rm} -f {} \;
-/usr/bin/find %{buildroot} -type f -name '*.bs' -a -size 0 -exec %{__rm} -f {} \;
-/usr/bin/find %{buildroot} -depth -type d -exec /bin/rmdir {} \; 2>/dev/null
-%{__chmod} -R u+w %{buildroot}
+rm -rf %{buildroot}
+make pure_install DESTDIR=%{buildroot}
+find %{buildroot} -type f -name .packlist -exec rm -f {} \;
+find %{buildroot} -type f -name '*.bs' -a -size 0 -exec rm -f {} \;
+find %{buildroot} -depth -type d -exec rmdir {} \; 2>/dev/null
+%{_fixperms} %{buildroot}
+
+%check
+make test
 
 %clean
-%{__rm} -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -55,6 +59,14 @@ AG. This implementation is copyright Systemics Ltd (http://www.systemics.com/).
 %{_mandir}/man3/Crypt::IDEA.3pm*
 
 %changelog
+* Thu Feb 16 2012 Paul Howarth <paul@city-fan.org> - 1.08-8
+- Spec clean-up:
+  - Don't use macros for commands
+  - Use DESTDIR rather than PERL_INSTALL_ROOT
+  - Use %%{_fixperms} macro rather than our own chmod incantation
+  - One buildreq per line
+  - Add buildreqs for Perl core modules that might be dual-lived
+
 * Wed Feb 08 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.08-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 

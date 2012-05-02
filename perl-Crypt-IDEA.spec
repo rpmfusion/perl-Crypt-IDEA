@@ -1,7 +1,7 @@
 Summary:	Perl interface to IDEA block cipher
 Name:		perl-Crypt-IDEA
 Version:	1.08
-Release:	8%{?dist}
+Release:	9%{?dist}
 License:	BSD with advertising
 Group:		Development/Libraries
 Url:		http://search.cpan.org/dist/Crypt-IDEA/
@@ -42,7 +42,6 @@ rm -rf %{buildroot}
 make pure_install DESTDIR=%{buildroot}
 find %{buildroot} -type f -name .packlist -exec rm -f {} \;
 find %{buildroot} -type f -name '*.bs' -a -size 0 -exec rm -f {} \;
-find %{buildroot} -depth -type d -exec rmdir {} \; 2>/dev/null
 %{_fixperms} %{buildroot}
 
 %check
@@ -52,13 +51,17 @@ make test
 rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root,-)
 %doc COPYRIGHT changes
 %{perl_vendorarch}/Crypt/
 %{perl_vendorarch}/auto/Crypt/
 %{_mandir}/man3/Crypt::IDEA.3pm*
 
 %changelog
+* Wed May  2 2012 Paul Howarth <paul@city-fan.org> - 1.08-9
+- Spec clean-up:
+  - Don't need to remove empty directories from buildroot
+  - Drop %%defattr, redundant since rpm 4.4
+
 * Thu Feb 16 2012 Paul Howarth <paul@city-fan.org> - 1.08-8
 - Spec clean-up:
   - Don't use macros for commands

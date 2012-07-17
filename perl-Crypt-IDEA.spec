@@ -1,14 +1,13 @@
 Summary:	Perl interface to IDEA block cipher
 Name:		perl-Crypt-IDEA
 Version:	1.08
-Release:	9%{?dist}
+Release:	10%{?dist}
 License:	BSD with advertising
 Group:		Development/Libraries
 Url:		http://search.cpan.org/dist/Crypt-IDEA/
 Source0:	http://search.cpan.org/CPAN/authors/id/D/DP/DPARIS/Crypt-IDEA-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(id -nu)
 BuildRequires:	perl(Carp)
-BuildRequires:	perl(DynaLoader)
 BuildRequires:	perl(Exporter)
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	perl(Test::More)
@@ -57,6 +56,10 @@ rm -rf %{buildroot}
 %{_mandir}/man3/Crypt::IDEA.3pm*
 
 %changelog
+* Tue Jul 17 2012 Paul Howarth <paul@city-fan.org> - 1.08-10
+- Perl 5.16 rebuild
+- Drop BR: perl(DynaLoader) - not dual-lived
+
 * Wed May  2 2012 Paul Howarth <paul@city-fan.org> - 1.08-9
 - Spec clean-up:
   - Don't need to remove empty directories from buildroot

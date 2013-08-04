@@ -1,7 +1,7 @@
 Summary:	Perl interface to IDEA block cipher
 Name:		perl-Crypt-IDEA
-Version:	1.08
-Release:	11%{?dist}
+Version:	1.10
+Release:	1%{?dist}
 License:	BSD with advertising
 Group:		Development/Libraries
 Url:		http://search.cpan.org/dist/Crypt-IDEA/
@@ -29,9 +29,6 @@ AG. This implementation is copyright Systemics Ltd (http://www.systemics.com/).
 # Remove unnecessary shellbang that points to the wrong perl interpreter anyway
 sed -i -e '\|^#! */usr/local/bin/perl |d' IDEA.pm
 
-# Remove file we don't want packaged
-rm -f ._test.pl
-
 %build
 perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
 make %{?_smp_mflags}
@@ -56,6 +53,12 @@ rm -rf %{buildroot}
 %{_mandir}/man3/Crypt::IDEA.3pm*
 
 %changelog
+* Sun Aug  4 2013 Paul Howarth <paul@city-fan.org> - 1.10-1
+- Update to 1.10
+  - Made SvUPGRADE a statement
+  - Corrected VERSION statement
+  - Fixed _idea.c for Strawberry
+
 * Sun Mar 03 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.08-11
 - Mass rebuilt for Fedora 19 Features
 

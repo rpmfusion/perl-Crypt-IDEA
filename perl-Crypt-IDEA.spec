@@ -1,7 +1,7 @@
 Summary:	Perl interface to IDEA block cipher
 Name:		perl-Crypt-IDEA
 Version:	1.10
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD with advertising
 Group:		Development/Libraries
 Url:		http://search.cpan.org/dist/Crypt-IDEA/
@@ -53,6 +53,9 @@ rm -rf %{buildroot}
 %{_mandir}/man3/Crypt::IDEA.3pm*
 
 %changelog
+* Sun Aug 31 2014 Sérgio Basto <sergio@serjux.com> - 1.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Sun Aug  4 2013 Paul Howarth <paul@city-fan.org> - 1.10-1
 - Update to 1.10
   - Made SvUPGRADE a statement

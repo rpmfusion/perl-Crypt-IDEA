@@ -1,16 +1,28 @@
 Summary:	Perl interface to IDEA block cipher
 Name:		perl-Crypt-IDEA
 Version:	1.10
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD with advertising
 Group:		Development/Libraries
 Url:		http://search.cpan.org/dist/Crypt-IDEA/
 Source0:	http://search.cpan.org/CPAN/authors/id/D/DP/DPARIS/Crypt-IDEA-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(id -nu)
-BuildRequires:	perl(Carp)
-BuildRequires:	perl(Exporter)
+# Build
+BuildRequires:	coreutils
+BuildRequires:	findutils
+BuildRequires:	make
+BuildRequires:	perl
+BuildRequires:	perl-generators
 BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildRequires:	sed
+# Module Runtime
+BuildRequires:	perl(Carp)
+BuildRequires:	perl(DynaLoader)
+BuildRequires:	perl(Exporter)
+BuildRequires:	perl(strict)
+# Test Suite
 BuildRequires:	perl(Test::More)
+# Dependencies
 Requires:	perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
 # Don't provide private perl libs
@@ -36,8 +48,8 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -exec rm -f {} \;
-find %{buildroot} -type f -name '*.bs' -a -size 0 -exec rm -f {} \;
+find %{buildroot} -type f -name .packlist -delete
+find %{buildroot} -type f -name '*.bs' -empty -delete
 %{_fixperms} %{buildroot}
 
 %check
@@ -47,12 +59,22 @@ make test
 rm -rf %{buildroot}
 
 %files
-%doc COPYRIGHT changes
+%if 0%{?_licensedir:1}
+%license COPYRIGHT
+%else
+%doc COPYRIGHT
+%endif
+%doc changes
 %{perl_vendorarch}/Crypt/
 %{perl_vendorarch}/auto/Crypt/
-%{_mandir}/man3/Crypt::IDEA.3pm*
+%{_mandir}/man3/Crypt::IDEA.3*
 
 %changelog
+* Wed Jul  6 2016 Paul Howarth <paul@city-fan.org> - 1.10-3
+- Classify buildreqs by usage
+- Simplify find commands using -empty and -delete
+- Use %%license where possible
+
 * Sun Aug 31 2014 Sérgio Basto <sergio@serjux.com> - 1.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 

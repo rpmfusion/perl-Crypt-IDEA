@@ -1,7 +1,7 @@
 Summary:	Perl interface to IDEA block cipher
 Name:		perl-Crypt-IDEA
 Version:	1.10
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD with advertising
 Group:		Development/Libraries
 Url:		http://search.cpan.org/dist/Crypt-IDEA/
@@ -12,6 +12,7 @@ BuildRequires:	coreutils
 BuildRequires:	findutils
 BuildRequires:	make
 BuildRequires:	perl
+BuildRequires:	perl-devel
 BuildRequires:	perl-generators
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	sed
@@ -70,6 +71,9 @@ rm -rf %{buildroot}
 %{_mandir}/man3/Crypt::IDEA.3*
 
 %changelog
+* Tue Jul 26 2016 Paul Howarth <paul@city-fan.org> - 1.10-4
+- BR: perl-devel
+
 * Wed Jul  6 2016 Paul Howarth <paul@city-fan.org> - 1.10-3
 - Classify buildreqs by usage
 - Simplify find commands using -empty and -delete
